@@ -6,7 +6,7 @@ const progress = document.getElementById('progress');
 const timestamp = controls.querySelector('.timestamp');
 
 const setVideoProgress = () => {
-	video.currentTime = (+progress.value * video.duration) / 100;
+	video.currentTime = (progress.value * video.duration) / 100;
 }
 
 progress.addEventListener('change', setVideoProgress);
