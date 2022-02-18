@@ -2,6 +2,14 @@ const video = document.getElementById('video');
 const controls = document.querySelector('.controls');
 const button = controls.querySelectorAll('.btn')[0];
 const icon = button.querySelector('i');
+const progress = document.getElementById('progress');
+const timestamp = controls.querySelector('.timestamp');
+
+const setVideoProgress = () => {
+	video.currentTime = (progress.value * video.duration) / 100;
+}
+
+progress.addEventListener('change', setVideoProgress);
 
 const timeConvert = (time) => {
 	let minute = 0;
@@ -30,15 +38,25 @@ const timeConvert = (time) => {
 	return disMinute + ':' + disSecond;
 }
 
-const timestamp = controls.querySelector('.timestamp');
-
 // 再生時間を表示
 video.addEventListener('timeupdate', function() {
+	// id = "progress"のvalueの更新
+	progress.value = (video.currentTime / video.duration) * 100;
+
 	timestamp.innerHTML = timeConvert(video.currentTime);
 	const maxVideo = Math.floor(video.duration);
 	// console.log(Math.floor(video.currentTime), maxVideo)
 	if(Math.floor(video.currentTime) >= maxVideo) {
 		icon.classList.replace(icon.classList[1],'fa-play');
+	}
+})
+
+
+video.addEventListener('click', () => {
+	// 再生中かを判定
+	if(video.paused) {
+		video.play();
+		icon.classList.replace(icon.classList[1], 'fa-pause');
 	}
 })
 
